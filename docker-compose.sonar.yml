@@ -1,0 +1,68 @@
+version: "3.8"
+
+services:
+  sonarqube:
+    image: sonarqube:10.3-community
+    container_name: sonarqube-auth
+    hostname: sonarqube
+    environment:
+      SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: true
+      SONAR_JDBC_URL: jdbc:postgresql://sonarqube-postgres:5432/sonar
+      SONAR_JDBC_USERNAME: sonar
+      SONAR_JDBC_PASSWORD: sonar_password
+    ports:
+      - "9000:9000"
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_logs:/opt/sonarqube/logs
+      - sonarqube_extensions:/opt/sonarqube/extensions
+    networks:
+      - sonar-network
+    depends_on:
+      - sonarqube-postgres
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: "1.0"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/api/system/status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  sonarqube-postgres:
+    image: postgres:15-alpine
+    container_name: sonarqube-postgres
+    hostname: sonarqube-postgres
+    environment:
+      POSTGRES_DB: sonar
+      POSTGRES_USER: sonar
+      POSTGRES_PASSWORD: sonar_password
+    volumes:
+      - postgres_sonar_data:/var/lib/postgresql/data
+    networks:
+      - sonar-network
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: "0.5"
+
+volumes:
+  sonarqube_data:
+    driver: local
+  sonarqube_logs:
+    driver: local
+  sonarqube_extensions:
+    driver: local
+  postgres_sonar_data:
+    driver: local
+
+networks:
+  sonar-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.0.0/16

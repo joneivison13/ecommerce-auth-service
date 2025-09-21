@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import AppError from "../../../utils/error";
 import logger from "../../../utils/logger";
 
@@ -9,8 +9,7 @@ export default class errorsMiddleware {
     error: Error & Partial<AppError>,
     req: Request,
     res: Response,
-    next: NextFunction
-  ) {
+  ): Promise<Response> {
     logger.error(JSON.stringify(error.message, null, 2));
 
     return res.status(error.statusCode ?? 400).json({
@@ -21,8 +20,8 @@ export default class errorsMiddleware {
         error.message[0] === "["
           ? JSON.parse(error.message)
           : error.message
-          ? error.message
-          : error,
+            ? error.message
+            : error,
     });
   }
 }

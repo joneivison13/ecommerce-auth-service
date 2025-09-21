@@ -1,30 +1,24 @@
 import express from "express";
-import HelloWorldController from "../../controllers/HelloWorld";
-import HelloWorldUseCase from "../../use_cases/HelloWorld";
-import PersonController from "../../controllers/PersonController";
-import upload from "./middlewares/file_upload";
-import DocumentsController from "../../controllers/DocumentsController";
-import AddressController from "../../controllers/AddressController";
+import HelloWorldController from "../../controllers/helloWorld";
+import AuthController from "../../controllers/auth.controller";
+import HealthController from "../../controllers/health.controller";
 
 const router = express.Router();
 
-/* ------------ USE CASES ------------ */
-const helloWorldUseCase = new HelloWorldUseCase();
-
 /* ----------- CONTROLLERS ----------- */
-const helloWorld = new HelloWorldController(helloWorldUseCase);
+const helloWorld = new HelloWorldController();
+const authController = new AuthController();
+const healthController = new HealthController();
 
 router.get("/", helloWorld.handle);
-router.post("/person/create", new PersonController().create);
-router.get("/person", new PersonController().get);
-router.get("/person/:id", new PersonController().getById);
+router.get("/health", healthController.handle);
 
-router.post(
-  "/document/create",
-  upload.single("file"),
-  new DocumentsController().create
-);
-
-router.post("/address/create", new AddressController().create);
+router.post("/login", authController.login);
+router.post("/signup", authController.signin);
+router.post("/confirm-signup", authController.confirmSignUp);
+router.post("/resend-confirmation-code", authController.resendConfirmationCode);
+router.post("/forgot-password", authController.forgotPassword);
+router.post("/confirm-forgot-password", authController.confirmForgotPassword);
+router.post("/logout", authController.logout);
 
 export { router };

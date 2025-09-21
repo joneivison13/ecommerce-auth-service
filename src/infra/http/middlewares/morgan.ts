@@ -1,12 +1,12 @@
 import morgan from "morgan";
 import logger from "../../../utils/logger";
 
-function myCustomLogger(message: string) {
+function myCustomLogger(message: string): void {
   logger.info(message);
 }
 
 export const myStream = {
-  write: (message: string) => {
+  write: (message: string): void => {
     myCustomLogger(message);
   },
 };

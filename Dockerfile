@@ -1,5 +1,5 @@
 # Use the official Node.js image as the base image
-FROM node:19-alpine
+FROM node:20-alpine
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -19,7 +19,7 @@ RUN yarn build
 RUN npx prisma migrate deploy
 
 # Expose the port on which the API will run
-EXPOSE 3333
+EXPOSE 4090
 
 # Start the API
 CMD ["yarn", "start"]

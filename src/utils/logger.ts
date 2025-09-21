@@ -4,7 +4,7 @@ import winston from "winston";
 const logFormat = winston.format.combine(
   winston.format.timestamp(),
   winston.format.errors({ stack: true }),
-  winston.format.printf((info) => {
+  winston.format.printf(info => {
     let message = `${info.timestamp} ${info.level}: ${
       typeof info.message === "object"
         ? JSON.stringify(info.message, null, 2)
@@ -13,7 +13,7 @@ const logFormat = winston.format.combine(
     if (info.stack)
       message = `${info.timestamp} ${info.level}: Stack Trace: ${info.stack}`;
     return message;
-  })
+  }),
 );
 
 const logger = winston.createLogger({

@@ -6,3 +6,9 @@ logs/*
 
 coverage
 temp
+
+# SonarQube
+.scannerwork/
+eslint-report.json
+sonar-report.json
+*.log

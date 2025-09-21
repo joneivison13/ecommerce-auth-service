@@ -1,3 +1,4 @@
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { router } from "./infra/http/routes";
@@ -11,7 +12,7 @@ app.use(morgan("DefaultFormat", { stream: myStream }));
 app.use(
   cors({
     origin: process.env.CORS_URLS?.split(";"),
-  })
+  }),
 );
 app.use(router);
 app.use("/file", express.static(process.env.UPLOADS_PATH as string));
