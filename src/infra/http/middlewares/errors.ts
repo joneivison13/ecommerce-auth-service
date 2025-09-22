@@ -3,8 +3,6 @@ import AppError from "../../../utils/error";
 import logger from "../../../utils/logger";
 
 export default class errorsMiddleware {
-  constructor() {}
-
   static handle(
     error: Error & Partial<AppError>,
     req: Request,
