@@ -5,11 +5,11 @@ import logger from "../../../utils/logger";
 export default class errorsMiddleware {
   constructor() {}
 
-  static async handle(
+  static handle(
     error: Error & Partial<AppError>,
     req: Request,
     res: Response,
-  ): Promise<Response> {
+  ): Response {
     logger.error(JSON.stringify(error.message, null, 2));
 
     return res.status(error.statusCode ?? 400).json({
