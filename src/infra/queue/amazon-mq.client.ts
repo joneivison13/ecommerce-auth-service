@@ -1,6 +1,7 @@
 import * as amqp from "amqplib";
 import { queueConfig } from "../../config/queue.config";
 import logger from "../../utils/logger";
+import crypto from "crypto";
 
 export class AmazonMQClient {
   private connection: amqp.ChannelModel | null = null;
@@ -103,7 +104,7 @@ export class AmazonMQClient {
         timestamp: Date.now(),
         messageId:
           message.id ||
-          `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          `msg-${Date.now()}-${crypto.randomBytes(4).toString("hex")}`,
         contentType: "application/json",
       });
 

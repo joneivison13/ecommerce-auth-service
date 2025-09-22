@@ -1,6 +1,7 @@
 import { AmazonMQClient } from "./amazon-mq.client";
 import { queueConfig } from "../../config/queue.config";
 import logger from "../../utils/logger";
+import crypto from "crypto";
 
 export interface QueueMessage {
   id: string;
@@ -101,7 +102,7 @@ export class QueueService {
   }
 
   private generateId(): string {
-    return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    return `${Date.now()}-${crypto.randomBytes(4).toString("hex")}`;
   }
 }
 
