@@ -13,8 +13,8 @@ export const myStream = {
 
 // ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"'
 
-morgan.format("DefaultFormat", (tokens, req, res) => {
-  return [
+morgan.format("DefaultFormat", (tokens, req, res) =>
+  [
     tokens["remote-addr"](req, res),
     "-",
     tokens["remote-user"](req, res) || "----",
@@ -27,7 +27,7 @@ morgan.format("DefaultFormat", (tokens, req, res) => {
     '"' + tokens["user-agent"](req, res) + '"',
     tokens["response-time"](req, res),
     "ms",
-  ].join(" ");
-});
+  ].join(" "),
+);
 
 export default morgan;

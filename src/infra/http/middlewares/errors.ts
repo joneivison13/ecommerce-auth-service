@@ -10,16 +10,22 @@ export default class errorsMiddleware {
   ): Response {
     logger.error(JSON.stringify(error.message, null, 2));
 
+    let errorMessage;
+    if (
+      String(error).startsWith("{") ||
+      error.message?.startsWith("{") ||
+      String(error).startsWith("[") ||
+      error.message?.startsWith("[")
+    ) {
+      errorMessage = JSON.parse(error.message);
+    } else if (error.message) {
+      errorMessage = error.message;
+    } else {
+      errorMessage = error;
+    }
+
     return res.status(error.statusCode ?? 400).json({
-      error:
-        String(error)[0] === "{" ||
-        error.message[0] === "{" ||
-        String(error)[0] === "[" ||
-        error.message[0] === "["
-          ? JSON.parse(error.message)
-          : error.message
-            ? error.message
-            : error,
+      error: errorMessage,
     });
   }
 }

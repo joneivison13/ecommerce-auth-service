@@ -3,7 +3,10 @@ node_modules
 .env
 .env.sonar
 dist
-logs/*
+
+logs/combined.log
+logs/error.log
+logs/info.log
 
 coverage
 temp
@@ -13,3 +16,5 @@ temp
 eslint-report.json
 sonar-report.json
 *.log
+
+docker/*

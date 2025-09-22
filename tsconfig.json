@@ -11,6 +11,7 @@
     "skipLibCheck": true,
     "allowJs": true,
     "moduleResolution": "NodeNext",
-    "module": "NodeNext"
+    "module": "NodeNext",
+    "isolatedModules": true
   }
 }
